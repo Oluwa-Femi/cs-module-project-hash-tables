@@ -27,6 +27,7 @@ class HashTable:
         # Logic 
         if self.capacity < MIN_CAPACITY:
             print ("Hash table can't have less than 8 slots")
+            return
         else:
             self.storage = [None] * capacity
         # a storage to store each value
@@ -71,9 +72,15 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        str_key = str(key).encode()
         hash = 5381
-        for c in key:
-            hash =((hash << 5) + hash) + ord(c)
+        # for c in key:
+        #     hash =((hash << 5) + hash) + ord(c)
+
+        for b in str_key:
+            hash = ((hash << 5) + hash) + b
+            hash &= 0xffffffff
+
         return hash 
 
     def hash_index(self, key):
@@ -102,7 +109,18 @@ class HashTable:
         #         node = node.next
         #     node.next = HashTableEntry(key, value)
          i = self.hash_index(key)
-        self.storage[i] = value
+        if not self.storage[i]:
+            self.storage[i] = HashTableEntry(key, value)
+        else:
+            node = self.storage[i]
+            while node:
+                if node.value == key:
+                    node.value = value
+                    return value
+                else:
+                    prev_node = node
+                    node = node.next
+            prev_node.next = HashTableEntry(key, value)
 
     def delete(self, key):
         """
@@ -120,7 +138,13 @@ class HashTable:
         #         self.storage[index] = None
         #     else:
         #         return 'node not found'
-        self.storage[index] = None
+        if not self.storage[i]:
+            print('No data to be deleted')
+        else:
+            while node.key != key:
+                prev_node = node
+                node = node.next
+            prev_node.next = node.next
 
     def get(self, key):
         """
