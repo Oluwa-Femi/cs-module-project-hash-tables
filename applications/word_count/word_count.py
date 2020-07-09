@@ -1,11 +1,11 @@
 def word_count(s):
     # Your code here
     lowercase = s.lower()
-    whitespace = '\n \t \r'.split()
+    whitespace = '\n \t \r'.split(" ")
     # whitespace_to_space
     for i in whitespace:
         lowercase = lowercase.replace(i, ' ')
-    chars = '": ; , . - + = / \ | [ ] { } ( ) * ^ &'.split(' ')
+    chars = ' ": ; , . - + = / \ | [ ] { } ( ) * ^ &'.split(' ')
     # remove_chars
     for i in chars:
         lowercase = lowercase.replace(i, '')
@@ -18,7 +18,7 @@ def word_count(s):
             seen[string] += 1
         else:
             seen[string] = 1
-            
+
     return seen
 
 
