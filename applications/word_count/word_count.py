@@ -1,6 +1,25 @@
 def word_count(s):
     # Your code here
-
+    lowercase = s.lower()
+    whitespace = '\n \t \r'.split()
+    # whitespace_to_space
+    for i in whitespace:
+        lowercase = lowercase.replace(i, ' ')
+    chars = '": ; , . - + = / \ | [ ] { } ( ) * ^ &'.split(' ')
+    # remove_chars
+    for i in chars:
+        lowercase = lowercase.replace(i, '')
+    strings = lowercase.split(' ')
+    seen = {}
+    for string in strings:
+        if string == '':
+            continue
+        if string in seen:
+            seen[string] += 1
+        else:
+            seen[string] = 1
+            
+    return seen
 
 
 if __name__ == "__main__":
